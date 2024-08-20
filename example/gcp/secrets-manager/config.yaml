@@ -1,0 +1,2 @@
+secret_01: "${get_gcp_secret:gcp-secret-001/1}"
+secret_02: "${get_gcp_secret:gcp-secret-001}"
