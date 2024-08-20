@@ -1,0 +1,2 @@
+param:  "${get_aws_param:/this/is/secret}"
+list_param: "${get_aws_param_list:/this/is/secret/too}"
