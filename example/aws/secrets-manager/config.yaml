@@ -1,1 +1,2 @@
-secret: "${get_secret:my-aws-secret-001}"
+secret_1: "${get_secret:test_secret_1}"
+secret_2: "${get_secret:test_secret_2}"

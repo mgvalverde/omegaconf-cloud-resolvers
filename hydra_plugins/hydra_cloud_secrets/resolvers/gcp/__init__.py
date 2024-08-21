@@ -1,4 +1,4 @@
-from .base import GCPSecretManagerRetriever
+from .secretmanager import GCPSecretManagerRetriever
 
 __all__ = [
     "GCPSecretManagerRetriever",

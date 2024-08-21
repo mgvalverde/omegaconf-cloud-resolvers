@@ -1,2 +1,3 @@
-param:  "${get_aws_param:/this/is/secret}"
-list_param: "${get_aws_param_list:/this/is/secret/too}"
+param:  "${get_aws_param:/project1/env1/param}"
+sec_param:  "${get_aws_param:/project1/env1/sec}"
+list_param: "${get_aws_param_list:/project1/env1/list}"
