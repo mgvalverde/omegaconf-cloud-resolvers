@@ -1,3 +1,4 @@
-param:  "${get_aws_param:/project1/env1/param}"
+param:  "${get_aws_param:/cdk-bootstrap/hnb659fds/version}"
 sec_param:  "${get_aws_param:/project1/env1/sec}"
 list_param: "${get_aws_param_list:/project1/env1/list}"
+str_list_param: "${get_aws_param_list_str:/project1/env1/list}"

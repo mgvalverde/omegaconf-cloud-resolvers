@@ -8,9 +8,10 @@ from omegaconf_cloud_resolvers.resolvers.aws import AWSParameterStoreResolver
 logger = logging.getLogger(__name__)
 
 resolvers = {
-    "get_aws_param": AWSParameterStoreResolver(),
-    "get_aws_decrypt": AWSParameterStoreResolver(is_list=True, decrypt=True),
-    "get_aws_param_list": AWSParameterStoreResolver(is_list=True, decrypt=False),
+    "get_aws_param": AWSParameterStoreResolver(infere_types=False),
+    "get_aws_decrypt": AWSParameterStoreResolver(infere_types=True, decrypt=True),
+    "get_aws_param_list": AWSParameterStoreResolver(infere_types=True, decrypt=False),
+    "get_aws_param_list_str": AWSParameterStoreResolver(infere_types=False, decrypt=False),
 }
 
 hydra_injector = CustomResolverInjector.inject_resolvers(**resolvers)
