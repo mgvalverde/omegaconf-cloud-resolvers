@@ -40,5 +40,5 @@ def try_cast_to_dict(val: Any) -> Any:
                 # NOTE: would it be more secure to do `import yaml; yaml.safe_load(val), but it produces some artifacts
                 #  in some scenarios
             except Exception:
-                pass
+                return val
     return val

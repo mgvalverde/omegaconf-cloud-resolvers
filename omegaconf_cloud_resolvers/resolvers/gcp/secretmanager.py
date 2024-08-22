@@ -10,13 +10,15 @@ class GCPSecretManagerMixin(GCPMixin):
             from google.cloud import secretmanager
         except ImportError:
             raise ImportError(
-                "To use the GCP Secret Manager Resolver you need to: `pip install google-cloud-secret-manager`")
+                "To use the GCP Secret Manager Resolver you need to: `pip install google-cloud-secret-manager`"
+            )
         return secretmanager.SecretManagerServiceClient(credentials=self._credentials)
 
 
 class GCPSecretManagerResolver(Resolver, GCPSecretManagerMixin):
-
-    def __init__(self, credentials=None, project_id=None, encoding="UTF-8", *args, **kwargs):
+    def __init__(
+        self, credentials=None, project_id=None, encoding="UTF-8", *args, **kwargs
+    ):
         super().__init__(credentials, project_id, *args, **kwargs)
         self.encoding = encoding
 
@@ -41,12 +43,12 @@ class GCPSecretManagerResolver(Resolver, GCPSecretManagerMixin):
             # Handles if just 'secretID' is provided
             secret_dict = {"secrets": name}
 
-        if 'secrets' not in secret_dict.keys():
+        if "secrets" not in secret_dict.keys():
             raise ValueError("You must provide at least `secrets/<secret_id>`")
-        if 'projects' not in secret_dict.keys():
-            secret_dict['projects'] = self._project_id
-        if 'versions' not in secret_dict.keys():
-            secret_dict['versions'] = "latest"
+        if "projects" not in secret_dict.keys():
+            secret_dict["projects"] = self._project_id
+        if "versions" not in secret_dict.keys():
+            secret_dict["versions"] = "latest"
 
         return secret_dict
 

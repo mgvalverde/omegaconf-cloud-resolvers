@@ -23,5 +23,5 @@ def main(cfg: DictConfig):
         print(k, ":", type(v), "=>", v, end="\n\n")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
