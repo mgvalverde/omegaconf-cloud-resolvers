@@ -9,7 +9,8 @@ class GCPSecretManagerMixin(GCPMixin):
         try:
             from google.cloud import secretmanager
         except ImportError:
-            raise ImportError("To use the GCP Secret Manager Resolver you need to: `pip install google-cloud-secret-manager`")
+            raise ImportError(
+                "To use the GCP Secret Manager Resolver you need to: `pip install google-cloud-secret-manager`")
         return secretmanager.SecretManagerServiceClient(credentials=self._credentials)
 
 
@@ -26,11 +27,19 @@ class GCPSecretManagerResolver(Resolver, GCPSecretManagerMixin):
         return response.payload.data.decode(self.encoding)
 
     def _parse_secret_name(self, name: str) -> Dict[str, str]:
-        secret_comps = iter(name.split("/"))
-        try:
-            secret_dict = {k: v for k, v in zip(secret_comps, secret_comps)}
-        except:
-            ValueError("Failure parsing secret name.")
+        """
+        Get the provided information and add any missing one needed.
+        """
+        if "/" in name:
+            # Handle cases like projects/projectA/secrets/secretID, secrets/secretID
+            secret_comps = iter(name.split("/"))
+            try:
+                secret_dict = {k: v for k, v in zip(secret_comps, secret_comps)}
+            except:
+                ValueError("Failure parsing secret name.")
+        else:
+            # Handles if just 'secretID' is provided
+            secret_dict = {"secrets": name}
 
         if 'secrets' not in secret_dict.keys():
             raise ValueError("You must provide at least `secrets/<secret_id>`")
