@@ -22,6 +22,8 @@ google-cloud-secret-manager = "^2.20.2"
 hydra-core = "^1.3.0"
 
 [tool.poetry.group.dev.dependencies]
+moto = {extras = ["secretsmanager", "ssm"], version = "^5.0.13"}
+pytest-mock = "^3.14.0"
 pytest = "^8.3.2"
 
 [build-system]
