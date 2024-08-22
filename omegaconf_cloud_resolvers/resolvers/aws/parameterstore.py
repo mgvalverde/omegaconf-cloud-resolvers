@@ -1,12 +1,12 @@
 from .base import AWSMixin
-from ..base import Retriever
+from ..base import Resolver
 from .aux import try_cast_to_number
 
 class AWSParameterStoreMixin(AWSMixin):
     def get_client(self):
         return self._session.client('ssm')
 
-class AWSParameterStoreRetriever(Retriever, AWSParameterStoreMixin):
+class AWSParameterStoreResolver(Resolver, AWSParameterStoreMixin):
     def __init__(self, session=None, decrypt=True, is_list=True, enforce_numerical=True, *args, **kwargs):
         super().__init__(session, *args, **kwargs)
         self._decrypt = decrypt

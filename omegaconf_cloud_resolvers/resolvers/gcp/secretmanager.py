@@ -1,7 +1,7 @@
 from typing import Dict
 
 from .base import GCPMixin
-from ..base import Retriever
+from ..base import Resolver
 
 
 class GCPSecretManagerMixin(GCPMixin):
@@ -13,7 +13,7 @@ class GCPSecretManagerMixin(GCPMixin):
         return secretmanager.SecretManagerServiceClient(credentials=self._credentials)
 
 
-class GCPSecretManagerRetriever(Retriever, GCPSecretManagerMixin):
+class GCPSecretManagerResolver(Resolver, GCPSecretManagerMixin):
 
     def __init__(self, credentials=None, project_id=None, encoding="UTF-8", *args, **kwargs):
         super().__init__(credentials, project_id, *args, **kwargs)

@@ -1,21 +1,19 @@
 # Import necessary libraries
-from pathlib import Path
-from functools import partial
 import hydra
 from omegaconf import DictConfig
 import logging
-from hydra_plugins.hydra_cloud_secrets import HydraResolverInjector
-from hydra_plugins.hydra_cloud_secrets.resolvers.aws import AWSParameterStoreRetriever
+from omegaconf_cloud_resolvers import CustomResolverInjector
+from omegaconf_cloud_resolvers.resolvers.aws import AWSParameterStoreResolver
 
 logger = logging.getLogger(__name__)
 
 resolvers = {
-    "get_aws_param": AWSParameterStoreRetriever(),
-    "get_aws_decrypt": AWSParameterStoreRetriever(is_list=True, decrypt=True),
-    "get_aws_param_list": AWSParameterStoreRetriever(is_list=True, decrypt=False),
+    "get_aws_param": AWSParameterStoreResolver(),
+    "get_aws_decrypt": AWSParameterStoreResolver(is_list=True, decrypt=True),
+    "get_aws_param_list": AWSParameterStoreResolver(is_list=True, decrypt=False),
 }
 
-hydra_injector = HydraResolverInjector.inject_resolvers(**resolvers)
+hydra_injector = CustomResolverInjector.inject_resolvers(**resolvers)
 
 config_fname = "config"
 config_dir = "."
@@ -24,7 +22,7 @@ config_dir = "."
 @hydra.main(version_base=None, config_path=config_dir, config_name=config_fname)
 def main(cfg: DictConfig):
     for k, v in cfg.items():
-        print(k, "=>", v, end="\n\n")
+        print(k, ":", type(v), "=>", v, end="\n\n")
 
 
 if __name__ == '__main__':
