@@ -37,7 +37,7 @@ class GCPSecretManagerResolver(Resolver, GCPSecretManagerMixin):
             secret_comps = iter(name.split("/"))
             try:
                 secret_dict = {k: v for k, v in zip(secret_comps, secret_comps)}
-            except:
+            except Exception:
                 ValueError("Failure parsing secret name.")
         else:
             # Handles if just 'secretID' is provided
