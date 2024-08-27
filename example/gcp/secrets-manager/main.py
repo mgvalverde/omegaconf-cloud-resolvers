@@ -8,7 +8,7 @@ from omegaconf_cloud_resolvers.resolvers.gcp import GCPSecretManagerResolver
 resolvers = {
     "get_gcp_secret": GCPSecretManagerResolver(),
 }
-hydra_injector = CustomResolverInjector.inject_resolvers(**resolvers)
+conf_injector = CustomResolverInjector.inject_resolvers(**resolvers)
 
 config_fname = "config"
 config_dir = "."

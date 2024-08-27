@@ -14,7 +14,7 @@ resolvers = {
     "get_aws_param_list_str": AWSParameterStoreResolver(infere_types=False, decrypt=False),
 }
 
-hydra_injector = CustomResolverInjector.inject_resolvers(**resolvers)
+conf_injector = CustomResolverInjector.inject_resolvers(**resolvers)
 
 config_fname = "config"
 config_dir = "."

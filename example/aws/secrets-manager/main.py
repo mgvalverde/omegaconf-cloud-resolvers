@@ -10,7 +10,7 @@ resolvers = {
     "aws_secretsmanager_parsed": AWSSecretsManagerResolver(infere_json=True),
 }
 
-hydra_injector = CustomResolverInjector.inject_resolvers(**resolvers)
+conf_injector = CustomResolverInjector.inject_resolvers(**resolvers)
 
 config_fname = "config"
 config_dir = "."

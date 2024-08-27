@@ -29,7 +29,7 @@ def try_cast_to_dict(val: Any) -> Any:
     Try to case a dict-like string into a dictionary, if not possible, returns the input value.
 
     >>> try_cast_to_dict('{"user": "userA", "password": "ad2as9dua@das/*asd/*1", "age": 30}')    #  dict
-    >>> try_cast_to_dict("ad2as9dua@das/*asd/*1")           #  str
+    >>> try_cast_to_dict("random/string@1")           #  str
     """
 
     if isinstance(val, str):
@@ -37,7 +37,8 @@ def try_cast_to_dict(val: Any) -> Any:
         if val_[0] + val_[-1] == "{}":
             try:
                 return ast.literal_eval(val)
-                # Note: would it be more secure to do `import yaml; yaml.safe_load(val)
+                # NOTE: would it be more secure to do `import yaml; yaml.safe_load(val), but it produces some artifacts
+                #  in some scenarios
             except Exception:
                 pass
     return val
