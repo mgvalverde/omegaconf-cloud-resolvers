@@ -5,7 +5,7 @@ from omegaconf import OmegaConf
 logger = logging.getLogger(__name__)
 
 
-class HydraResolverInjector:
+class CustomResolverInjector:
     """
 
     """
@@ -18,12 +18,12 @@ class HydraResolverInjector:
     @classmethod
     def inject_resolvers(cls, *args, **kwargs):
         args_expand = {cls._get_callable_name(x): x for x in args}
-        kwargs = {**args_expand, **kwargs}
+        resolvers = {**args_expand, **kwargs}
         collision_keys = cls._get_collision_keys(args_expand, kwargs)
         if collision_keys:
             raise ValueError(f"Collision name on resolvers: {collision_keys}, provide key-word for those function with the same name")
         i = 0  # needed in case of no injection
-        for i, (name, func) in enumerate(kwargs.items(), 1):
+        for i, (name, func) in enumerate(resolvers.items(), 1):
             cls.inject_resolver(func, name)
         logger.info(f"Injected {i} custom resolvers")
 

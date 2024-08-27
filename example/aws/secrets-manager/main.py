@@ -2,13 +2,15 @@
 import hydra
 from omegaconf import DictConfig
 
-from hydra_plugins.hydra_cloud_secrets import HydraResolverInjector
-from hydra_plugins.hydra_cloud_secrets.resolvers.aws import AWSSecretsManagerRetriever
+from omegaconf_cloud_resolvers import CustomResolverInjector
+from omegaconf_cloud_resolvers.resolvers.aws import AWSSecretsManagerResolver
 
 resolvers = {
-    "get_secret": AWSSecretsManagerRetriever(),
+    "aws_secretsmanager": AWSSecretsManagerResolver(),
+    "aws_secretsmanager_parsed": AWSSecretsManagerResolver(infere_json=True),
 }
-hydra_injector = HydraResolverInjector.inject_resolvers(**resolvers)
+
+conf_injector = CustomResolverInjector.inject_resolvers(**resolvers)
 
 config_fname = "config"
 config_dir = "."
@@ -18,7 +20,7 @@ config_dir = "."
 @hydra.main(version_base=None, config_path=config_dir, config_name=config_fname)
 def main(cfg: DictConfig):
     for k, v in cfg.items():
-        print(k, "=>", v, end="\n\n")
+        print(k, ":", type(v), "=>", v, end="\n\n")
 
 
 if __name__ == '__main__':

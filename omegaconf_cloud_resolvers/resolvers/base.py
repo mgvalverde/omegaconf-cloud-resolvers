@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 
-class Retriever(ABC):
+class Resolver(ABC):
 
     @abstractmethod
     def __call__(self, *args, **kwargs):
