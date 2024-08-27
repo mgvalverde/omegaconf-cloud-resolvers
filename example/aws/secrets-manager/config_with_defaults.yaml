@@ -1,0 +1,2 @@
+secret_1: "${aws_secretsmanager:test_secret_1}"
+secret_3: "${aws_secretsmanager:test_secret_2}"
