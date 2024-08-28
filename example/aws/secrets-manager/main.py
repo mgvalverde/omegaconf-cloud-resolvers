@@ -2,15 +2,15 @@
 import hydra
 from omegaconf import DictConfig
 
-from omegaconf_cloud_resolvers import CustomResolverInjector
+from omegaconf_cloud_resolvers import register_custom_resolvers
 from omegaconf_cloud_resolvers.resolvers.aws import AWSSecretsManagerResolver
 
 resolvers = {
     "aws_secretsmanager": AWSSecretsManagerResolver(),
-    "aws_secretsmanager_parsed": AWSSecretsManagerResolver(infere_json=True),
+    "aws_secretsmanager_parsed": AWSSecretsManagerResolver(infer_json=True),
 }
 
-conf_injector = CustomResolverInjector.inject_resolvers(**resolvers)
+register_custom_resolvers(**resolvers)
 
 config_fname = "config"
 config_dir = "."

@@ -1,5 +1,5 @@
 from .base import AWSMixin
-from ..base import Resolver
+from ..base import PluginResolver
 from .aux import try_cast_to_number
 
 
@@ -8,7 +8,7 @@ class AWSParameterStoreMixin(AWSMixin):
         return self._session.client("ssm")
 
 
-class AWSParameterStoreResolver(Resolver, AWSParameterStoreMixin):
+class AWSParameterStoreResolver(PluginResolver, AWSParameterStoreMixin):
     def __init__(self, session=None, decrypt=True, infere_types=False, *args, **kwargs):
         super().__init__(session, *args, **kwargs)
         self._decrypt = decrypt

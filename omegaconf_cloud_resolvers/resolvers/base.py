@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 
-class Resolver(ABC):
+class PluginResolver(ABC):
     @abstractmethod
     def __call__(self, *args, **kwargs):
         # The retriever uses a callable

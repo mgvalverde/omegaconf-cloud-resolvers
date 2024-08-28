@@ -1,40 +1,40 @@
-from typing import List
+import logging
+from typing import Callable, Dict, Any
 
-from omegaconf_cloud_resolvers.injector import CustomResolverInjector
+from omegaconf import OmegaConf
+
+logger = logging.getLogger("omegaconf.plugin.cloud")
 
 
-# NOTE: defining  Literal["aws", ...] gets type warning: Expected type 'Literal["aws", ...]', got 'str' instead,
-#  https://youtrack.jetbrains.com/issue/PY-46450/Expected-Literal-got-str-when-str-is-stored-in-a-variable
-def init_cloud_resolvers(*args):
-    from omegaconf_cloud_resolvers.resolvers.aws import (
-        AWSSecretsManagerResolver,
-        AWSParameterStoreResolver,
-    )
-    from omegaconf_cloud_resolvers.resolvers import GCPSecretManagerResolver
+def register_custom_resolvers(*args, **kwargs):
+    """
+    Allow registering many custom resolvers at once.
+    If only a callable is provided the name used to register the callable w
+    """
+    def _get_callable_name(func: Callable):
+        return func.__name__
 
-    CLOUD_PROVIDERS = ["aws", "gcp"]
-    RESOLVERS = {
-        "aws_secretsmanager": AWSSecretsManagerResolver,
-        "aws_parameterstore": AWSParameterStoreResolver,
-        "gcp_secretmanager": GCPSecretManagerResolver,
-    }
+    def _get_collision_keys(dict1: Dict[str, Any], dict2: Dict[str, Any]):
+        # Convert the dictionary keys to sets
+        keys1 = set(dict1.keys())
+        keys2 = set(dict2.keys())
+        shared_keys = keys1.intersection(keys2)
+        return shared_keys
 
-    if set(args) - set(CLOUD_PROVIDERS):
-        _ = ", ".join(CLOUD_PROVIDERS)
-        raise ValueError(f"The only possible providers currently are: {_} ")
-
-    def match_prefix(prefixes: List[str], value: str):
-        for prefix in prefixes:
-            if value.startswith(prefix):
-                return True
-        return False
-
-    resolvers_chosen = {k: v() for k, v in RESOLVERS.items() if match_prefix(args, k)}
-
-    CustomResolverInjector.inject_resolvers(**resolvers_chosen)
+    args_expand = {_get_callable_name(x): x for x in args}
+    resolvers = {**args_expand, **kwargs}
+    collision_keys = _get_collision_keys(args_expand, kwargs)
+    if collision_keys:
+        raise ValueError(
+            f"Collision name on resolvers: {collision_keys}, provide key-word for those function with the same name"
+        )
+    i = 0  # needed in case of no injection
+    for i, (name, func) in enumerate(resolvers.items(), 1):
+        name = name or _get_callable_name(func)
+        OmegaConf.register_new_resolver(name, func)
+    logger.info(f"Custom resolvers registered: %s", i)
 
 
 __all__ = [
-    "CustomResolverInjector",
-    "init_cloud_resolvers",
+    "register_custom_resolvers",
 ]

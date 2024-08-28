@@ -1,7 +1,7 @@
 from typing import Dict
 
 from .base import GCPMixin
-from ..base import Resolver
+from ..base import PluginResolver
 
 
 class GCPSecretManagerMixin(GCPMixin):
@@ -10,12 +10,12 @@ class GCPSecretManagerMixin(GCPMixin):
             from google.cloud import secretmanager
         except ImportError:
             raise ImportError(
-                "To use the GCP Secret Manager Resolver you need to: `pip install google-cloud-secret-manager`"
+                "To use the GCP Secret Manager PluginResolver you need to: `pip install google-cloud-secret-manager`"
             )
         return secretmanager.SecretManagerServiceClient(credentials=self._credentials)
 
 
-class GCPSecretManagerResolver(Resolver, GCPSecretManagerMixin):
+class GCPSecretManagerResolver(PluginResolver, GCPSecretManagerMixin):
     def __init__(
         self, credentials=None, project_id=None, encoding="UTF-8", *args, **kwargs
     ):
