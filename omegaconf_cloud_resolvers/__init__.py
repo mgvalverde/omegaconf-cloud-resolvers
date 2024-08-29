@@ -8,8 +8,28 @@ logger = logging.getLogger("omegaconf.plugin.cloud")
 
 def register_custom_resolvers(*args, **kwargs):
     """
-    Allow registering many custom resolvers at once.
-    If only a callable is provided the name used to register the callable w
+    Registers multiple custom resolvers at once for OmegaConf.
+
+    This function allows you to register multiple custom resolvers either by passing them as positional arguments
+    or as keyword arguments. If only a callable is provided, the name used to register the callable will be its
+    function name. If there are any name collisions between the positional and keyword arguments, a ValueError
+    will be raised.
+
+    Args:
+        *args: Variable length list of callables to register as resolvers.
+        **kwargs: Arbitrary keyword arguments where the key is the name of the resolver and the value is the callable.
+
+    Raises:
+        ValueError: If there are any name collisions between the positional and keyword arguments.
+
+    Example:
+        ```python
+        def custom_resolver1():
+            return "value1"
+        def custom_resolver2():
+            return "value2"
+        register_custom_resolvers(custom_resolver1, custom_resolver2=my_custom_resolver2)
+        ```
     """
     def _get_callable_name(func: Callable):
         return func.__name__
