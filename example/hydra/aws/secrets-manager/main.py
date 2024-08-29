@@ -3,16 +3,17 @@ import hydra
 from omegaconf import DictConfig
 
 from omegaconf_cloud_resolvers import register_custom_resolvers
-from omegaconf_cloud_resolvers.resolvers.gcp import GCPSecretManagerResolver
+from omegaconf_cloud_resolvers.resolvers.aws import AWSSecretsManagerResolver
 
 resolvers = {
-    "get_gcp_secret": GCPSecretManagerResolver(),
+    "aws_secretsmanager": AWSSecretsManagerResolver(),
+    "aws_secretsmanager_parsed": AWSSecretsManagerResolver(infer_json=True),
 }
 
 register_custom_resolvers(**resolvers)
 
 config_fname = "config"
-config_dir = "."
+config_dir = ""
 
 
 # Main function

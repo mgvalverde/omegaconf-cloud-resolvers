@@ -1,0 +1,8 @@
+param:  "${get_aws_param:/project1/env1/param}"
+encrypted_param:  "${get_aws_param:/project1/env1/sec}"
+sec_param:  "${get_aws_decrypt:/project1/env1/sec}"
+list_param: "${get_aws_param_list:/project1/env1/list}"
+str_list_param: "${get_aws_param_list_str:/project1/env1/list}"
+param_many:  "${get_aws_decrypt:/project1/env2/*}"
+param_many_rec_nodec:  "${get_aws_param:/project1/env2/**}"
+param_many_rec:  "${get_aws_decrypt:/project1/env2/**}"
