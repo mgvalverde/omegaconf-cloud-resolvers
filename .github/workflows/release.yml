@@ -140,6 +140,4 @@ jobs:
       contents: write
 
     with:
-      ref_tag: "v${{needs.build.outputs.target_version}}"
-
-
+      tag_name: "${{needs.build.outputs.target_version}}"

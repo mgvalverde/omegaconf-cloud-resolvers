@@ -6,19 +6,19 @@ on:
     inputs:
       tag_name:
         type: string
-        description: "Release tag"
+        description: "Release tag. Format: X.Y.Z"
         default: ""
   workflow_call:
     inputs:
       tag_name:
         type: string
-        description: "Release tag"
+        description: "Release tag. Format: X.Y.Z"
         default: ""
 
 env:
   POETRY_VERSION: "1.8.3"
   PYTHON_VERSION: "3.9"
-  LATEST_TAG: v$(git tag --sort=taggerdate | tail -1 | cut -c2-)
+  LATEST_TAG: $(git tag --sort=taggerdate | tail -1 | cut -c2-)
 
 permissions:
   contents: write
@@ -42,7 +42,7 @@ jobs:
       - run: |
           echo "TARGET_TAG=${{inputs.tag_name || env.LATEST_TAG}}" >> $GITHUB_ENV
       - run: |
-          echo "TARGET_VERSION=$(echo ${{env.TARGET_TAG}}  | sed -E 's/v([0-9]+\.[0-9]+)\.[0-9]+/\1.x/')" >> $GITHUB_ENV
+          echo "TARGET_VERSION=$(echo ${{env.TARGET_TAG}}  | sed -E 's/([0-9]+\.[0-9]+)\.[0-9]+/\1.x/')" >> $GITHUB_ENV
       # Ops
       - name: Setup Docs Deploy
         run: |
