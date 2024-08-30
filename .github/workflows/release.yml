@@ -98,7 +98,7 @@ jobs:
           timeout_minutes: 5
           max_attempts: 3
           command: |
-            pip install -i https://test.pypi.org/simple/ omegaconf_cloud_resolvers[aws,gcp]=="${TARGET_VERSION}"
+            pip install -i https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/ omegaconf_cloud_resolvers[aws,gcp]=="${TARGET_VERSION}"
             python -c "import omegaconf_cloud_resolvers; print('Base import: OK')"
             python -c "from omegaconf_cloud_resolvers.resolvers.aws import AWSParameterStoreResolver; print('AWS import: OK')"
             python -c "from omegaconf_cloud_resolvers.resolvers.gcp import GCPSecretManagerResolver; print('GCP import: OK')"
