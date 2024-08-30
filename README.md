@@ -1,8 +1,9 @@
 # Omegaconf Plugin: Cloud Secrets
 
-This package contains OmegaConf resolvers to retrieve parameters stored using different cloud's providers tools.
+This package is a plugin designed to enhance OmegaConf by providing additional custom resolvers to **securely retrieve
+sensitive values** that should not be hard-coded in your configuration files.
 
-Currently there are resolvers for:
+Currently, there are resolvers for:
 
 * AWS:
     * Secrets Manager
@@ -59,9 +60,10 @@ print("Your secret is:", conf["secret"])  # THAT IS AN ILLUSTRATIVE EXAMPLE, NEV
 
 ## Roadmap
 
-* PluginResolver for Azure Key Vault
-* Examples using AWS Lambda
-* Examples using Google Cloud Functions
+- [ ] Resolver for Azure Key Vault
+- [ ] Support for older version for the AWS Secrets Manager Resolver
+- [ ] Examples using AWS services - Lambda
+- [ ] Examples using Google Cloud Platform services - Functions
 
 
 # WARNING

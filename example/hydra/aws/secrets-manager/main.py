@@ -13,7 +13,7 @@ resolvers = {
 register_custom_resolvers(**resolvers)
 
 config_fname = "config"
-config_dir = ""
+config_dir = "."
 
 
 # Main function
