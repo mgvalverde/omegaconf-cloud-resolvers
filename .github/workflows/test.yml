@@ -1,0 +1,61 @@
+name: Test Package
+run-name: Test Package 🔧
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+
+  workflow_dispatch:
+
+env:
+  POETRY_VERSION: "1.8.3"
+
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+
+  ci:
+    name: Continuous Integration
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: [ "3.9", "3.10", "3.11", "3.12" ]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Poetry
+        run: pipx install poetry==${{ env.POETRY_VERSION }}
+
+      - name: Set up python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: poetry install --all-extras
+
+      - name: Lint with ruff
+        run: poetry run ruff check ${{ env.PCKG_SRC }}
+
+      - name: Lint with bandit
+        run: poetry run bandit -r ${{ env.PCKG_SRC }} --quiet
+
+      - name: Test with pytest
+        run: poetry run pytest tests/ --cov=omegaconf-cloud-resolvers --cov-report=xml # store in cov
+
+      - name: Archive code coverage html report    #
+        if: ${{ matrix.python-version == '3.9'}}
+        uses: actions/upload-artifact@v2
+        with:
+          name: code-coverage-report
+          path: htmlcov
+
+      - name: Test build docs
+        run: poetry run mkdocs build
