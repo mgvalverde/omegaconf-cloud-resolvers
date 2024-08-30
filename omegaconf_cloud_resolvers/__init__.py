@@ -55,7 +55,7 @@ def register_custom_resolvers(*args: Callable[..., JsonType], **kwargs: Dict[str
     for i, (name, func) in enumerate(resolvers.items(), 1):
         name = name or _get_callable_name(func)
         OmegaConf.register_new_resolver(name, func)
-    logger.info(f"Custom resolvers registered: %s", i)
+    logger.info("Custom resolvers registered: %s", i)
 
 
 __all__ = [

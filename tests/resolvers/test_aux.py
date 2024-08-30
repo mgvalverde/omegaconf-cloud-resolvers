@@ -26,12 +26,12 @@ def test_cast_float():
 
 def test_case_bool_true():
     value = try_infer_and_cast("True")
-    assert value == True
+    assert value
     assert isinstance(value, bool)
 
 def test_case_bool_false():
     value = try_infer_and_cast("false ")
-    assert value == False
+    assert not value
     assert isinstance(value, bool)
 
 def test_cast_float_scientific():
