@@ -1,3 +1,0 @@
-secret_01: "${get_gcp_secret:secrets/gcp-secret-001/versions/1}"
-secret_02: "${get_gcp_secret:secrets/gcp-secret-001}"
-secret_03: "${get_gcp_secret:gcp-secret-001}"
