@@ -11,6 +11,7 @@ on:
 
 env:
   POETRY_VERSION: "1.8.3"
+  PCKG_SRC: "omegaconf_cloud_resolvers"
 
 
 defaults:
@@ -42,13 +43,13 @@ jobs:
         run: poetry install --all-extras
 
       - name: Lint with ruff
-        run: poetry run ruff check ${{ env.PCKG_SRC }}
+        run: poetry run ruff check . --exit-non-zero-on-fix --show-fixes
 
       - name: Lint with bandit
-        run: poetry run bandit -r ${{ env.PCKG_SRC }} --quiet
+        run: poetry run bandit -r . -x "./.venv/*,./tests/*,.svn,CVS,.bzr,.hg,.git,__pycache__,.tox,.eggs,*.egg" --quiet
 
       - name: Test with pytest
-        run: poetry run pytest tests/ --cov=omegaconf-cloud-resolvers --cov-report=xml # store in cov
+        run: poetry run pytest tests/ --cov=${{env.PCKG_SRC}} --cov-report=xml # store in cov
 
       - name: Archive code coverage html report    #
         if: ${{ matrix.python-version == '3.9'}}
