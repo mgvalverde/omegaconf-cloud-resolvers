@@ -3,10 +3,12 @@ from typing import Callable, Dict, Any
 
 from omegaconf import OmegaConf
 
+from .resolvers.base import JsonType
+
 logger = logging.getLogger("omegaconf.plugin.cloud")
 
 
-def register_custom_resolvers(*args, **kwargs):
+def register_custom_resolvers(*args: Callable[..., JsonType], **kwargs: Dict[str, Callable[..., JsonType]]):
     """
     Registers multiple custom resolvers at once for OmegaConf.
 
@@ -31,6 +33,7 @@ def register_custom_resolvers(*args, **kwargs):
         register_custom_resolvers(custom_resolver1, custom_resolver2=my_custom_resolver2)
         ```
     """
+
     def _get_callable_name(func: Callable):
         return func.__name__
 

@@ -1,4 +1,4 @@
-from omegaconf_cloud_resolvers.resolvers.aws.aux import try_infer_and_cast, try_cast_to_dict
+from omegaconf_cloud_resolvers.resolvers.aux import try_infer_and_cast, try_cast_to_dict
 
 
 def test_cast_string_1():

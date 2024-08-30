@@ -1,5 +1,6 @@
 from typing import Dict
 
+from omegaconf_cloud_resolvers.resolvers.base import JsonType
 from .base import GCPMixin
 from ..base import PluginResolver
 
@@ -8,6 +9,7 @@ class GCPSecretManagerMixin(GCPMixin):
     """
     Mixin to handle the auth client generation for GCP Secret Manager
     """
+
     def get_client(self):
         try:
             from google.cloud import secretmanager
@@ -22,52 +24,65 @@ class GCPSecretManagerResolver(PluginResolver, GCPSecretManagerMixin):
     """
     Resolver for the GCP Secret Manager.
 
-    This class provides functionality to resolve secrets stored in Google Cloud Platform's Secret Manager.
-    It extends `PluginResolver` and `GCPSecretManagerMixin` to leverage their capabilities.
-
-    Attributes:
-        encoding (str): The encoding used to decode the secret data. Defaults to "UTF-8".
-
     Methods:
         __init__(credentials=None, project_id=None, encoding="UTF-8", *args, **kwargs):
             Initializes the resolver with optional credentials, project ID, and encoding.
+            If no credentials or project_id are provided, they'll be infered from the default credentials,
+            if condigured.
 
-        __call__(name: str):
+        __call__(name):
             Resolves the secret by its name and returns the decoded secret data.
 
-       Examples:
-           ```python
-            >>> resolver = GCPSecretManagerResolver(credentials=my_credentials, project_id="my_project")
-            >>> secret_data = resolver("projects/my_project/secrets/my_secret/versions/latest")
-            >>> print(secret_data) # 'my_secret_value'
-            ```
+    Example:
+        Example 1:
+        ```python
+        >>> resolver = GCPSecretManagerResolver(credentials=my_credentials, project_id="my_project")
+        >>> secret_data = resolver("projects/my_project/secrets/my_secret/versions/latest")
+        >>> print(secret_data)
+        ```
+
+        Example 2: retrieve the latest version of your secret while infering the project
+        ```python
+        >>> resolver = GCPSecretManagerResolver()
+        >>> secret_data = resolver("my_secret")
+        >>> print(secret_data)
+        ```
+
+        Example 3: retrieve a given version of your secret while infering the project
+        ```python
+        >>> resolver = GCPSecretManagerResolver()
+        >>> secret_data = resolver("secrets/my_secret/versions/1")
+        >>> print(secret_data)
+        ```
     """
+
     def __init__(
-        self, credentials=None, project_id=None, encoding="UTF-8", *args, **kwargs
+            self, credentials=None, project_id: str = None, encoding: str = "UTF-8", *args, **kwargs
     ):
         """
         Initializes the GCPSecretManagerResolver.
 
         Args:
-            credentials (optional): The credentials to access GCP Secret Manager. Defaults to None, and uses the default project configured locally.
-            project_id (optional): The GCP project ID. Defaults to None, and uses the default project configured locally.
-            encoding (str, optional): The encoding used to decode the secret data. Defaults to "UTF-8".
-            *args: Variable length argument list.
-            **kwargs: Arbitrary keyword arguments.
+            credentials (google.auth.credentials.Crendential): The google.auth.credentials.Crendential to
+                access GCP Secret Manager. If none provided, and uses the default project configured locally.
+            project_id: The GCP project ID. If none provided, tries to use the default project configured locally.
+            encoding: The encoding used to decode the secret data.
         """
         super().__init__(credentials, project_id, *args, **kwargs)
         self.encoding = encoding
 
-    def __call__(self, name: str):
+    def __call__(self, name: str) -> JsonType:
         """
         Resolves the secret by its name and returns the decoded secret data.
 
         Args:
             name (str): The name of the secret to resolve.
+                Names must follow the following syntax: `<secret_name>`, `secrets/<secret_name>`,
+                `secrets/<secret_name>/versions/<version>`,
+                 `projects/<project-id>/secrets/<secret_name>/versions/<version>`
 
         Returns:
-            str: The decoded secret data.
-
+            (str): The decoded secret data.
 
         Raises:
             ValueError: If the secret name cannot be parsed or if required components are missing.
@@ -112,7 +127,7 @@ class GCPSecretManagerResolver(PluginResolver, GCPSecretManagerMixin):
         return secret_dict
 
     @staticmethod
-    def _build_secret_name(projects, secrets, versions):
+    def _build_secret_name(projects: str, secrets: str, versions: str) -> str:
         """
         Constructs the full secret name from its components.
 
