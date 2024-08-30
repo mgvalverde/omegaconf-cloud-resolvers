@@ -1,0 +1,145 @@
+name: Release
+run-name: Release 🚀
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+env:
+  POETRY_VERSION: "1.8.3"
+  PYTHON_VERSION: "3.9"
+
+
+jobs:
+
+  build:
+    name: Build and Release
+    runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write
+      contents: write
+
+    outputs:
+      target_version: ${{ steps.export_version.outputs.target_version }}
+
+    steps:
+      - name: Set up Python ${{ env.PYTHON_VERSION }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install Poetry v${{ env.POETRY_VERSION }}
+        run: pipx install poetry==${{ env.POETRY_VERSION }}
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Use Python Semantic Release to prepare release
+        id: release
+        uses: python-semantic-release/python-semantic-release@v9.8.6
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: python-package-distributions
+          path: dist/
+          if-no-files-found: 'error'
+
+      - name: Save Tag reference
+        id: export_version
+        run: echo "target_version=$(git describe --exact-match | cut -c2-)" >> $GITHUB_OUTPUT
+
+
+  publish-to-test-pypi:
+    name: Publish to Test PyPI
+    runs-on: ubuntu-latest
+    needs:
+      - build
+
+    permissions:
+      id-token: write
+      contents: write
+
+    steps:
+      - name: Download all the dists
+        uses: actions/download-artifact@v4
+        with:
+          name: python-package-distributions
+          path: dist/
+      - name: Publish distribution 📦 to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          repository-url: https://test.pypi.org/legacy/
+
+  test-installation-testpypi:
+    name: Test installation from Test PyPI
+    runs-on: ubuntu-latest
+    needs:
+      - build
+      - publish-to-test-pypi
+    steps:
+      - name: Set up Python ${{ env.PYTHON_VERSION }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - name: Installation test (with retry)
+        uses: nick-fields/retry@v2
+        env:
+          TARGET_VERSION: ${{needs.build.outputs.target_version}}
+        with:
+          timeout_minutes: 5
+          max_attempts: 3
+          command: |
+            pip install -i https://test.pypi.org/simple/ omegaconf_cloud_resolvers[aws,gcp]=="${TARGET_VERSION}"
+            python -c "import omegaconf_cloud_resolvers; print('Base import: OK')"
+            python -c "from omegaconf_cloud_resolvers.resolvers.aws import AWSParameterStoreResolver; print('AWS import: OK')"
+            python -c "from omegaconf_cloud_resolvers.resolvers.gcp import GCPSecretManagerResolver; print('GCP import: OK')"
+
+
+
+  publish-to-pypi:
+    name: Publish to PyPI
+    runs-on: ubuntu-latest
+    needs:
+      - test-installation-testpypi
+
+    permissions:
+      id-token: write
+      contents: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download all the dists
+        uses: actions/download-artifact@v4
+        with:
+          name: python-package-distributions
+          path: dist/
+      - name: Publish distribution 📦 to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+
+  publish-docs:
+    name: Publish Docs
+    uses: ./.github/workflows/release_docs.yml
+
+    needs:
+      - build
+      - test-installation-testpypi
+
+    permissions:
+      id-token: write
+      contents: write
+
+    with:
+      ref_tag: "v${{needs.build.outputs.target_version}}"
+
+
