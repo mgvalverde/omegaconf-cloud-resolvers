@@ -1,0 +1,64 @@
+name:  Docs Release
+run-name: Docs Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag_name:
+        type: string
+        description: "Release tag"
+        default: ""
+  workflow_call:
+    inputs:
+      tag_name:
+        type: string
+        description: "Release tag"
+        default: ""
+
+env:
+  POETRY_VERSION: "1.8.3"
+  PYTHON_VERSION: "3.9"
+  LATEST_TAG: v$(git tag --sort=taggerdate | tail -1 | cut -c2-)
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      # Deps
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - name: Install Poetry v${{ env.POETRY_VERSION }}
+        run: pipx install poetry==${{ env.POETRY_VERSION }}
+      - name: Install dev dependencies
+        run: poetry install --no-interaction --only=dev  # NOTE: this is needed for mkdocs etc
+      # Env vars
+      - run: |
+          echo "TARGET_TAG=${{inputs.tag_name || env.LATEST_TAG}}" >> $GITHUB_ENV
+      - run: |
+          echo "TARGET_VERSION=$(echo ${{env.TARGET_TAG}}  | sed -E 's/v([0-9]+\.[0-9]+)\.[0-9]+/\1.x/')" >> $GITHUB_ENV
+      # Ops
+      - name: Setup Docs Deploy
+        run: |
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
+      - name: Build Docs Website
+        run: |
+          poetry run mike deploy --update-aliases --push ${{ env.TARGET_VERSION }} latest
+          poetry run mike set-default --push latest
+      # Trigger build
+      - name: Trigger GitHub pages rebuild
+        run: |
+          curl --fail --request POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer $USER_TOKEN" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/repos/${{ github.repository }}/pages/builds
+        env:
+          USER_TOKEN: ${{ secrets.PAT_PUBLISH_DOCS }}
