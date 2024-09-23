@@ -1,0 +1,1577 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://mgvalverde.github.io/omegaconf-cloud-resolvers/0.2.x/users-guide/resolvers/">
+      
+      
+        <link rel="prev" href="../quickstart/">
+      
+      
+        <link rel="next" href="../integration-hydra/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.33">
+    
+    
+      
+        <title>Cloud Resolvers - OmegaConf Plugin - Cloud Resolvers</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.3cba04c6.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#cloud-resolvers" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="OmegaConf Plugin - Cloud Resolvers" class="md-header__button md-logo" aria-label="OmegaConf Plugin - Cloud Resolvers" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            OmegaConf Plugin - Cloud Resolvers
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Cloud Resolvers
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/mgvalverde/omegaconf-cloud-resolvers" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="OmegaConf Plugin - Cloud Resolvers" class="md-nav__button md-logo" aria-label="OmegaConf Plugin - Cloud Resolvers" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    OmegaConf Plugin - Cloud Resolvers
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/mgvalverde/omegaconf-cloud-resolvers" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Welcome
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../first/install/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Installation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Usage
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Usage
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Quickstart
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            Quickstart
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quickstart/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction to OmegaConf
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Cloud Resolvers
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Cloud Resolvers
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#aws" class="md-nav__link">
+    <span class="md-ellipsis">
+      AWS
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="AWS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prerequisites
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#secrets-manager" class="md-nav__link">
+    <span class="md-ellipsis">
+      Secrets Manager
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Secrets Manager">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-a-secret" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create a secret
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-the-secrets-manager-resolver" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using the Secrets Manager Resolver
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ssm-parameter-store" class="md-nav__link">
+    <span class="md-ellipsis">
+      SSM Parameter Store
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SSM Parameter Store">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-the-ssm-parameter-store-resolver" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using the SSM Parameter Store Resolver
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#azure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Azure
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Azure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prerequisites_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prerequisites
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-vault" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Vault
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Key Vault">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-a-secret_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create a Secret
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-the-azure-key-vault-resolver" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using the Azure Key Vault Resolver
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gcp" class="md-nav__link">
+    <span class="md-ellipsis">
+      GCP
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="GCP">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prerequisites_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prerequisites
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#secret-manager" class="md-nav__link">
+    <span class="md-ellipsis">
+      Secret Manager
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Secret Manager">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-a-secret_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create a Secret
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-the-gcp-secret-manager-resolver" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using the GCP Secret Manager Resolver
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../integration-hydra/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Integration with Hydra
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    References
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            References
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/register/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Register Custom Resolvers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Resolvers
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            Resolvers
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2_1" id="__nav_4_2_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    AWS
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            AWS
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/resolvers/aws/parameterstore/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Parameter Store
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/resolvers/aws/secretsmanager/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Secrets Manager
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2_2" id="__nav_4_2_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Azure
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            Azure
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/resolvers/az/keyvault/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    KeyVault
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2_3" id="__nav_4_2_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    GCP
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            GCP
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/resolvers/gcp/secretmanager/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Secret Manager
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tags/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Tags
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#aws" class="md-nav__link">
+    <span class="md-ellipsis">
+      AWS
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="AWS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prerequisites
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#secrets-manager" class="md-nav__link">
+    <span class="md-ellipsis">
+      Secrets Manager
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Secrets Manager">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-a-secret" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create a secret
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-the-secrets-manager-resolver" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using the Secrets Manager Resolver
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ssm-parameter-store" class="md-nav__link">
+    <span class="md-ellipsis">
+      SSM Parameter Store
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SSM Parameter Store">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-the-ssm-parameter-store-resolver" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using the SSM Parameter Store Resolver
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#azure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Azure
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Azure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prerequisites_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prerequisites
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-vault" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Vault
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Key Vault">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-a-secret_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create a Secret
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-the-azure-key-vault-resolver" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using the Azure Key Vault Resolver
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gcp" class="md-nav__link">
+    <span class="md-ellipsis">
+      GCP
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="GCP">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prerequisites_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prerequisites
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#secret-manager" class="md-nav__link">
+    <span class="md-ellipsis">
+      Secret Manager
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Secret Manager">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-a-secret_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create a Secret
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-the-gcp-secret-manager-resolver" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using the GCP Secret Manager Resolver
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+  
+<nav class="md-tags" >
+  
+    
+    
+    
+      <a href="../../tags/#aws" class="md-tag">AWS</a>
+    
+  
+    
+    
+    
+      <a href="../../tags/#az" class="md-tag">AZ</a>
+    
+  
+    
+    
+    
+      <a href="../../tags/#gcp" class="md-tag">GCP</a>
+    
+  
+</nav>
+
+
+  
+  
+
+
+<h1 id="cloud-resolvers">Cloud Resolvers</h1>
+<p>Each resolver uses the same interface but has unique features based on the service it connects to.
+The next sections will cover important examples for each resolver.</p>
+<h2 id="aws">AWS</h2>
+<h3 id="prerequisites">Prerequisites</h3>
+<p>The AWS resolvers in this package are built on top of the <code>boto3</code> library, which is the
+Amazon Web Services (AWS) SDK for Python.</p>
+<p>If you are running this example from your local machine, ensure that you have configured your AWS credentials.</p>
+<p>You might need to install the <a href="https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html">aws-cli</a>
+if you don't have it yet.</p>
+<p>After installing the AWS CLI, configure it with your credentials by running:</p>
+<div class="highlight"><pre><span></span><code>aws<span class="w"> </span>configure
+</code></pre></div>
+<p>This configuration is stored in the <code>~/.aws/credentials</code> and <code>~/.aws/config</code> files.</p>
+<h3 id="secrets-manager">Secrets Manager</h3>
+<h4 id="create-a-secret">Create a secret</h4>
+<div class="admonition tip">
+<p class="admonition-title">Policy Check</p>
+<p>If you have problems creating or accessing your secrets,  verify that you have the necessary permissions
+to access the AWS Secrets Manager. Review the <a href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html">policies</a>
+needed and ensure that your IAM user or role has the appropriate permissions.</p>
+</div>
+<p>You can create a secret using the AWS CLI or the AWS Management Console.
+Below is an example of how to create a secret using the AWS CLI:</p>
+<div class="highlight"><pre><span></span><code>aws<span class="w"> </span>secretsmanager<span class="w"> </span>create-secret<span class="w"> </span>--name<span class="w"> </span>db_secret_1<span class="w"> </span>--secret-string<span class="w"> </span><span class="s1">&#39;{&quot;user&quot;:&quot;user1&quot;,&quot;password&quot;:&quot;mypassword&quot;}&#39;</span>
+</code></pre></div>
+<h4 id="using-the-secrets-manager-resolver">Using the Secrets Manager Resolver</h4>
+<p>In this example, the <code>AWSSecretsManagerResolver</code> is used to fetch the secret named <code>db_secret_1</code> from AWS Secrets Manager.
+The <code>infer_json</code> parameter is set to <code>True</code>, which means the resolver will attempt to parse the secret string into a
+dictionary. This is of interest when the secret stores key:values pairs.
+If <code>infer_json</code> is set to <code>False</code>, the secret will be returned as a plain string, which is useful if you store a secret
+string, like a JWT.</p>
+<p>The following example shows how to use the AWS Secrets Manager resolver with default AWS credentials configuration.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">omegaconf</span> <span class="kn">import</span> <span class="n">OmegaConf</span>
+<span class="kn">from</span> <span class="nn">omegaconf_cloud_resolvers</span> <span class="kn">import</span> <span class="n">register_custom_resolvers</span>
+<span class="kn">from</span> <span class="nn">omegaconf_cloud_resolvers.resolvers.aws</span> <span class="kn">import</span> <span class="n">AWSSecretsManagerResolver</span>
+
+<span class="n">resolvers</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;aws_secretsmanager&quot;</span><span class="p">:</span> <span class="n">AWSSecretsManagerResolver</span><span class="p">(</span><span class="n">infer_json</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+<span class="p">}</span>
+<span class="n">register_custom_resolvers</span><span class="p">(</span><span class="o">**</span><span class="n">resolvers</span><span class="p">)</span>
+
+<span class="n">conf</span> <span class="o">=</span> <span class="n">OmegaConf</span><span class="o">.</span><span class="n">create</span><span class="p">({</span>
+    <span class="s2">&quot;secret&quot;</span><span class="p">:</span> <span class="s2">&quot;${aws_secretsmanager:db_secret_1}&quot;</span>
+<span class="p">})</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">conf</span><span class="p">[</span><span class="s2">&quot;user&quot;</span><span class="p">])</span>  <span class="c1"># &#39;user1&#39;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">conf</span><span class="p">[</span><span class="s2">&quot;password&quot;</span><span class="p">])</span>  <span class="c1"># &#39;mypassword&#39;</span>
+</code></pre></div>
+<p>To check the class in depth, visit the reference page for <a href="../../api/resolvers/aws/secretsmanager/"><code>AWSSecretsManagerResolver</code></a>.</p>
+<h3 id="ssm-parameter-store">SSM Parameter Store</h3>
+<h4 id="create-parameters">Create parameters</h4>
+<div class="admonition tip">
+<p class="admonition-title">Policy Check</p>
+<p>If you have problems creating or accessing your parameters, verify that you have the necessary permissions
+to access the SSM Parameter Store. Review the <a href="https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-paramstore-access.html">policies</a>
+needed and ensure that your IAM user or role has the appropriate permissions.</p>
+</div>
+<p>You can create secrets using either the AWS Command Line Interface (CLI) or the AWS Management Console.
+Below are the instructions for using the CLI:</p>
+<div class="highlight"><pre><span></span><code>aws<span class="w"> </span>ssm<span class="w"> </span>put-parameter<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;/project1/env1/sec&quot;</span><span class="w"> </span>--value<span class="w"> </span><span class="s2">&quot;MySecureParameterValue&quot;</span><span class="w"> </span>--type<span class="w"> </span><span class="s2">&quot;SecureString&quot;</span>
+aws<span class="w"> </span>ssm<span class="w"> </span>put-parameter<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;/project1/env1/list&quot;</span><span class="w"> </span>--value<span class="w"> </span><span class="s2">&quot;Value1,Value2,1,1.2&quot;</span><span class="w"> </span>--type<span class="w"> </span><span class="s2">&quot;StringList&quot;</span>
+aws<span class="w"> </span>ssm<span class="w"> </span>put-parameter<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;/project1/env1/famA/a&quot;</span><span class="w"> </span>--value<span class="w"> </span><span class="s2">&quot;ValueA&quot;</span><span class="w"> </span>--type<span class="w"> </span><span class="s2">&quot;String&quot;</span>
+aws<span class="w"> </span>ssm<span class="w"> </span>put-parameter<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;/project1/env1/famA/b&quot;</span><span class="w"> </span>--value<span class="w"> </span><span class="s2">&quot;ValueB&quot;</span><span class="w"> </span>--type<span class="w"> </span><span class="s2">&quot;SecureString&quot;</span>
+</code></pre></div>
+<h4 id="using-the-ssm-parameter-store-resolver">Using the SSM Parameter Store Resolver</h4>
+<p>The <code>AWSParameterStoreResolver</code> is able to retrieve each one of the parameters types available:</p>
+<ul>
+<li><code>String</code>: plain string, suitable for common values.</li>
+<li><code>StringList</code>: comma separated list of plain strings, suitable for a collection of non-encrypted values.</li>
+<li><code>SecureString</code>: encrypted string, suitable to store sensitive information.
+  Use the argument <code>decrypt=True</code> (defaults to <code>True</code>) if you need the decrypted value stored, otherwise you will get
+  the encrypted value.</li>
+</ul>
+<p>Another feature of the class is its ability to retrieve nested parameters. The options are:
+ * <code>/my/param</code>: retrieves one single value.
+ * <code>/my/param/*</code>: retrieves <code>/my/param</code> and the first level hanging from <code>/my/param/</code>, i.e. <code>/my/param/a</code> and
+   <code>/my/param/b</code>, as a dictionary: <code>{'param': ..., 'param/a': ...,'param/b': ...}</code>.
+ * <code>/my/param/family</code>: retrieves <code>/my/param/family</code> and the all the parameters hanging from <code>/my/param/family</code>, i.e. <code>/my/param/family/a</code>,
+   <code>/my/param/family/a/beta</code> and <code>/my/param/family/b</code>, as a dictionary:
+   <code>{'family': ..., 'family/a': ..., family/a/beta: ..., 'family/b': ...}</code>.</p>
+<p>Lastly, <code>infer_types=True</code> will attempt to cast each value to the right type (). That could be of special interest when
+the parameter type is <code>StringList</code>.</p>
+<p>The following case assumes that you have default configuration for your AWS credentials.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">boto3</span>
+<span class="kn">from</span> <span class="nn">omegaconf</span> <span class="kn">import</span> <span class="n">OmegaConf</span>
+<span class="kn">from</span> <span class="nn">omegaconf_cloud_resolvers</span> <span class="kn">import</span> <span class="n">register_custom_resolvers</span>
+<span class="kn">from</span> <span class="nn">omegaconf_cloud_resolvers.resolvers.aws</span> <span class="kn">import</span> <span class="n">AWSParameterStoreResolver</span>
+
+<span class="n">session</span> <span class="o">=</span> <span class="n">boto3</span><span class="o">.</span><span class="n">Session</span><span class="p">(</span><span class="n">profile_name</span><span class="o">=</span><span class="s2">&quot;&lt;my-profile&gt;&quot;</span><span class="p">)</span>
+
+<span class="n">resolvers</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="c1"># Decrypts and infer the parameter. It will return a single value.</span>
+    <span class="s2">&quot;get_aws_param&quot;</span><span class="p">:</span> <span class="n">AWSParameterStoreResolver</span><span class="p">(</span><span class="n">session</span><span class="o">=</span><span class="n">session</span><span class="p">,</span> <span class="n">decrypt</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">infer_types</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+    <span class="c1"># This parameter is a list of elements, that does not require decryption. It will return a list[any]</span>
+    <span class="s2">&quot;get_aws_param_list&quot;</span><span class="p">:</span> <span class="n">AWSParameterStoreResolver</span><span class="p">(</span><span class="n">session</span><span class="o">=</span><span class="n">session</span><span class="p">,</span> <span class="n">decrypt</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">infer_types</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+    <span class="c1"># This parameter is a list of elements, that does not require decryption. It will return a list[str]</span>
+    <span class="s2">&quot;get_aws_param_list_str&quot;</span><span class="p">:</span> <span class="n">AWSParameterStoreResolver</span><span class="p">(</span><span class="n">session</span><span class="o">=</span><span class="n">session</span><span class="p">,</span> <span class="n">decrypt</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">infer_types</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+<span class="p">}</span>
+
+<span class="n">register_custom_resolvers</span><span class="p">(</span><span class="o">**</span><span class="n">resolvers</span><span class="p">)</span>
+
+<span class="n">conf</span> <span class="o">=</span> <span class="n">OmegaConf</span><span class="o">.</span><span class="n">create</span><span class="p">({</span>
+    <span class="s2">&quot;sec_param&quot;</span><span class="p">:</span>  <span class="s2">&quot;${get_aws_param:/project1/env1/sec}&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;collection_param&quot;</span><span class="p">:</span> <span class="s2">&quot;${get_aws_param:/project1/env1/famA/*}&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;list_param&quot;</span><span class="p">:</span> <span class="s2">&quot;${get_aws_param_list:/project1/env1/list}&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;list_param_str&quot;</span><span class="p">:</span> <span class="s2">&quot;${get_aws_param_list_str:/project1/env1/list}&quot;</span><span class="p">,</span>
+<span class="p">})</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">conf</span><span class="p">[</span><span class="s2">&quot;sec_param&quot;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">conf</span><span class="p">[</span><span class="s2">&quot;collection_param&quot;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">conf</span><span class="p">[</span><span class="s2">&quot;list_param&quot;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">conf</span><span class="p">[</span><span class="s2">&quot;list_param_str&quot;</span><span class="p">])</span>
+</code></pre></div>
+<p>To check the class in depth, visit the reference page for <a href="../../api/resolvers/aws/parameterstore/"><code>AWSParameterStoreResolver</code></a>.</p>
+<h2 id="azure">Azure</h2>
+<h3 id="prerequisites_1">Prerequisites</h3>
+<p>If you need to test locally your configuration you will need to install
+the <a href="https://learn.microsoft.com/en-us/cli/azure/install-azure-cli">Azure CLI</a>.</p>
+<p>Make sure as well that you are <a href="https://learn.microsoft.com/en-us/cli/azure/authenticate-azure-cli-interactively">authenticated</a>:</p>
+<div class="highlight"><pre><span></span><code>az<span class="w"> </span>login
+</code></pre></div>
+<h3 id="key-vault">Key Vault</h3>
+<h4 id="create-a-secret_1">Create a Secret</h4>
+<p>You need to point out to a secret. In case that you need to create a new one, you can create it
+using the console or through the web.</p>
+<div class="admonition note">
+<p class="admonition-title">Key Vaults</p>
+<p>Key Vault's secrets belong inside objects called Key Vaults.
+As anything in Azure, they must be linked to a resource group, so make
+sure that you have a resource group available. In case you don't, you can
+create a new one:
+<div class="highlight"><pre><span></span><code>az<span class="w"> </span>group<span class="w"> </span>create<span class="w"> </span>--name<span class="w"> </span>&lt;ResourceGroupName&gt;<span class="w"> </span>--location<span class="w"> </span>germanywestcentral
+</code></pre></div>
+To create a Key Vault run:
+<div class="highlight"><pre><span></span><code>az keyvault create --name &lt;ConfigVaultName&gt; --resource-group &lt;ResourceGroupName&gt; --location germanywestcentral
+</code></pre></div></p>
+</div>
+<p>Let's create 2 versions for this secret, make sure that you replace
+the fields between <code>&lt;&gt;</code> by the proper strings.
+<div class="highlight"><pre><span></span><code>az<span class="w"> </span>keyvault<span class="w"> </span>secret<span class="w"> </span><span class="nb">set</span><span class="w"> </span>--vault-name<span class="w"> </span>&lt;ConfigVaulName&gt;<span class="w"> </span>--name<span class="w"> </span>MySecret<span class="w"> </span>--value<span class="w"> </span><span class="s2">&quot;This is a s3cr3t&quot;</span>
+az<span class="w"> </span>keyvault<span class="w"> </span>secret<span class="w"> </span><span class="nb">set</span><span class="w"> </span>--vault-name<span class="w"> </span>&lt;ConfigVaulName&gt;<span class="w"> </span>--name<span class="w"> </span>MySecret<span class="w"> </span>--value<span class="w"> </span><span class="s2">&quot;This is a s3cr3t v2&quot;</span>
+</code></pre></div></p>
+<div class="admonition tip">
+<p class="admonition-title">Permission error creating a secret</p>
+<p>If you get an error trying to create the secrets like: <code>`
+it is likely that you don't have the right set of permissions to create secrets.
+For this example's sake, you can use the</code>Key Vault Administrator` role.
+Add the previusly mentioned role in your ConfigResourceGroup/Access control (IAM)/Role Assigments
+as described <a href="">here</a>.
+Consider using a more restricted role in production.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Key Vault naming</p>
+<p>Key Vault naming must be globally unique, so you can add some random string
+at the end of the name if you get any related error.</p>
+</div>
+<h4 id="using-the-azure-key-vault-resolver">Using the Azure Key Vault Resolver</h4>
+<p>The Azure Key Vault resolver support the one name parameter.
+The supported patterns are:
+ * <code>keyvault/&lt;keyvault-name&gt;/secret/&lt;secret-name&gt;/version/&lt;version-id&gt;</code>: retrieves a given secret version.
+ * <code>keyvault/&lt;keyvault-name&gt;/secret/&lt;secret-name&gt;</code>: retrieves the latest version of a secret.</p>
+<p>Assuming that in my case I have access to
+ * Key Vault: <code>ConfigVaultu31d</code> (in your case it will be different)
+ * Secret: <code>MySecret</code></p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">omegaconf</span> <span class="kn">import</span> <span class="n">OmegaConf</span>
+<span class="kn">from</span> <span class="nn">omegaconf_cloud_resolvers</span> <span class="kn">import</span> <span class="n">register_custom_resolvers</span>
+<span class="kn">from</span> <span class="nn">omegaconf_cloud_resolvers.resolvers.az</span> <span class="kn">import</span> <span class="n">AzureKeyVaultResolver</span>
+<span class="kn">from</span> <span class="nn">azure.identity</span> <span class="kn">import</span> <span class="n">DefaultAzureCredential</span>
+
+<span class="n">credentials</span> <span class="o">=</span> <span class="n">DefaultAzureCredential</span><span class="p">()</span>
+
+<span class="n">resolvers</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;get_az_secret&quot;</span><span class="p">:</span> <span class="n">AzureKeyVaultResolver</span><span class="p">(</span><span class="n">credentials</span><span class="o">=</span><span class="n">credentials</span><span class="p">),</span>
+<span class="p">}</span>
+
+<span class="n">register_custom_resolvers</span><span class="p">(</span><span class="o">**</span><span class="n">resolvers</span><span class="p">)</span>
+
+<span class="n">conf</span> <span class="o">=</span> <span class="n">OmegaConf</span><span class="o">.</span><span class="n">create</span><span class="p">({</span>
+    <span class="s2">&quot;secret_01&quot;</span><span class="p">:</span><span class="s2">&quot;${get_az_secret:keyvault/ConfigVaultu31d/secret/MySecret}&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;secret_02&quot;</span><span class="p">:</span><span class="s2">&quot;${get_az_secret:keyvault/ConfigVaultu31d/secret/MySecret/version/339c8635b01644b2b6197588ef94a228}&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;secret_03&quot;</span><span class="p">:</span><span class="s2">&quot;${get_az_secret:keyvault/ConfigVaultu31d/secret/MySecret/version/ab9a2a6ae5b5420abd49a71628f368d8}&quot;</span><span class="p">,</span>
+<span class="p">})</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">conf</span><span class="p">[</span><span class="s2">&quot;secret_01&quot;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">conf</span><span class="p">[</span><span class="s2">&quot;secret_02&quot;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">conf</span><span class="p">[</span><span class="s2">&quot;secret_03&quot;</span><span class="p">])</span>
+</code></pre></div>
+<h2 id="gcp">GCP</h2>
+<h3 id="prerequisites_2">Prerequisites</h3>
+<p>If you are working on your local environment, ensure that you have the necessary permissions and tools installed to interact with
+Google Cloud Platform services, in this case, the Secret Manager.</p>
+<p>You will need the <a href="https://cloud.google.com/sdk/docs/install"><code>gcloud</code> CLI</a> installed and authenticated to your GCP account.
+Set-up the environment <a href="https://cloud.google.com/secret-manager/docs/authentication#client-libs">credentials</a> and
+make sure that you have the right access <a href="https://cloud.google.com/secret-manager/docs/access-control">permissions</a>.</p>
+<p>If you want to set up Application Default Credentials (ADC), so your application automatically finds your environment
+credentials, review this <a href="https://cloud.google.com/docs/authentication/provide-credentials-adc">link</a>.</p>
+<h3 id="secret-manager">Secret Manager</h3>
+<h4 id="create-a-secret_2">Create a Secret</h4>
+<p>Create a secret through the web or using the <code>gcloud</code> CLI, running the line below.</p>
+<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;This is a s3cr3t&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>gcloud<span class="w"> </span>secrets<span class="w"> </span>create<span class="w"> </span>gcp-secret-001<span class="w"> </span>--data-file<span class="o">=</span>-
+</code></pre></div>
+<p>Also create a new version for this example.</p>
+<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;This is a s3cr3t v2&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>gcloud<span class="w"> </span>secrets<span class="w"> </span>versions<span class="w"> </span>add<span class="w"> </span>gcp-secret-001<span class="w"> </span>--data-file<span class="o">=</span>-
+</code></pre></div>
+<h4 id="using-the-gcp-secret-manager-resolver">Using the GCP Secret Manager Resolver</h4>
+<p>The typical way to access a  GCP secret is providing a combination of the project_id, the secret id and, optionally, the
+secret's version. That is supported by the resolver, allowing you to retrieve the secret providing a name under the
+following format:</p>
+<ul>
+<li><code>project/&lt;project_id&gt;/secrets/&lt;secret_id&gt;/versions/&lt;version&gt;</code></li>
+<li><code>project/&lt;project_id&gt;/secrets/&lt;secret_id&gt;</code>: retrieve the latest version</li>
+<li><code>secrets/&lt;secret_id&gt;/versions/&lt;version&gt;</code>: infer the project_id based on the default configuration</li>
+<li><code>secrets/&lt;secret_id&gt;</code>: infer the project_id based on the default configuration and retrieve the latest version</li>
+<li><code>&lt;secret_id&gt;</code>: infer the project_id based on the default configuration and retrieve the latest version</li>
+</ul>
+<p>Assuming that you have the ADC, create a file <code>main.py</code> like the following:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">omegaconf</span> <span class="kn">import</span> <span class="n">OmegaConf</span>
+<span class="kn">from</span> <span class="nn">omegaconf_cloud_resolvers</span> <span class="kn">import</span> <span class="n">register_custom_resolvers</span>
+<span class="kn">from</span> <span class="nn">omegaconf_cloud_resolvers.resolvers.gcp</span> <span class="kn">import</span> <span class="n">GCPSecretManagerResolver</span>
+
+<span class="n">resolvers</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;get_gcp_secret&quot;</span><span class="p">:</span> <span class="n">GCPSecretManagerResolver</span><span class="p">(),</span>   <span class="c1"># if you don&#39;t have the ADC, or you need to override the,</span>
+                                                    <span class="c1"># provide: credentials and project_id</span>
+<span class="p">}</span>
+<span class="n">register_custom_resolvers</span><span class="p">(</span><span class="o">**</span><span class="n">resolvers</span><span class="p">)</span>
+
+<span class="n">conf</span> <span class="o">=</span> <span class="n">OmegaConf</span><span class="o">.</span><span class="n">create</span><span class="p">({</span>
+    <span class="s2">&quot;secret_01&quot;</span><span class="p">:</span> <span class="s2">&quot;${get_gcp_secret:secrets/gcp-secret-001/versions/1}&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;secret_02&quot;</span><span class="p">:</span> <span class="s2">&quot;${get_gcp_secret:secrets/gcp-secret-001}&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;secret_03&quot;</span><span class="p">:</span> <span class="s2">&quot;${get_gcp_secret:gcp-secret-001}&quot;</span><span class="p">,</span>
+<span class="p">})</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">conf</span><span class="p">[</span><span class="s2">&quot;secret_01&quot;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">conf</span><span class="p">[</span><span class="s2">&quot;secret_02&quot;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">conf</span><span class="p">[</span><span class="s2">&quot;secret_03&quot;</span><span class="p">])</span>
+</code></pre></div>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.sections", "navigation.path", "toc.follow", "content.code.copy"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.af256bd8.min.js"></script>
+      
+    
+  </body>
+</html>
