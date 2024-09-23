@@ -1,5 +1,27 @@
 # CHANGELOG
 
+## v0.2.0 (2024-09-23)
+
+### Feature
+
+* feat: add support for azure key vault
+
+chore: modify pre-commit conf ([`5ba3c3d`](https://github.com/mgvalverde/omegaconf-cloud-resolvers/commit/5ba3c3dd5d96b5876c5f336c4dd79feea0429c62))
+
+### Fix
+
+* fix: update deprecated version actions upload artifact ([`158021f`](https://github.com/mgvalverde/omegaconf-cloud-resolvers/commit/158021fc0502d2983564a72b603f84e4afffd375))
+
+### Unknown
+
+* Merge pull request #11 from mgvalverde/develop
+
+feat: add azure key vault ([`70c6df3`](https://github.com/mgvalverde/omegaconf-cloud-resolvers/commit/70c6df367d87faab6434ba7205f698d4e93c0aac))
+
+* Merge pull request #10 from mgvalverde/feat/azure-key-vault
+
+feat: add support for azure key vault ([`8f5ce85`](https://github.com/mgvalverde/omegaconf-cloud-resolvers/commit/8f5ce85b3fca99eeb3d375a26ed73579e6961dfc))
+
 ## v0.1.0 (2024-08-30)
 
 ### Chore

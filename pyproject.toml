@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "omegaconf-cloud-resolvers"
-version = "0.1.0"
+version = "0.2.0"
 description = "Omegaconf custom resolvers to retrieve configuration values from cloud services"
 authors = ["M Gil Valverde <m.gilvalverde@gmail.com>"]
 readme = "README.md"
