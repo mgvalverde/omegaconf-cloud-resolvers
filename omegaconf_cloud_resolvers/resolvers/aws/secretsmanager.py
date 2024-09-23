@@ -44,14 +44,21 @@ class AWSSecretsManagerResolver(PluginResolver, AWSSecretManagerMixin):
 
     """
 
-    def __init__(self, session=None, infer_json: bool = False, return_binary: bool = False, *args, **kwargs):
+    def __init__(
+        self,
+        session=None,
+        infer_json: bool = False,
+        return_binary: bool = False,
+        *args,
+        **kwargs,
+    ):
         """
-       Initializes the AWSSecretsManagerResolver.
+        Initializes the AWSSecretsManagerResolver.
 
-       Args:
-           session (boto3.Session): boto3.Session to use for AWS interactions. If none provided, tries to use the default configuration.
-           infer_json: If True, tries to parse the secret as JSON during the __call__.
-           return_binary: If True, tries to return the binary value from the key `SecretBinary` instead of `SecretString`.
+        Args:
+            session (boto3.Session): boto3.Session to use for AWS interactions. If none provided, tries to use the default configuration.
+            infer_json: If True, tries to parse the secret as JSON during the __call__.
+            return_binary: If True, tries to return the binary value from the key `SecretBinary` instead of `SecretString`.
         """
         super().__init__(session, *args, **kwargs)
         self._infer_json = infer_json

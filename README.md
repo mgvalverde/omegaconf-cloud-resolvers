@@ -10,10 +10,12 @@ Currently, there are resolvers for:
     * Parameter Store
 * Google Cloud Platform (GCP):
     * Secret Manager
+* Microsoft Azure:
+    * Key Vault
 
 ## Installation
 
- * AWS: 
+ * AWS:
 ```
 pip install omegaconf-cloud-resolvers[aws]
 ```
@@ -21,6 +23,11 @@ pip install omegaconf-cloud-resolvers[aws]
  * GCP:
 ```
 pip install omegaconf-cloud-resolvers[gcp]
+```
+
+ * Azure:
+```
+pip install omegaconf-cloud-resolvers[az]
 ```
 
 ## Quickstart
@@ -60,8 +67,8 @@ print("Your secret is:", conf["secret"])  # THAT IS AN ILLUSTRATIVE EXAMPLE, NEV
 
 ## Roadmap
 
-- [ ] Resolver for Azure Key Vault
-- [ ] Support for older version for the AWS Secrets Manager Resolver
+- [X] Resolver for Azure Key Vault
+- [ ] Support for older secret version - AWS Secrets Manager Resolver
 - [ ] Examples using AWS services - Lambda
 - [ ] Examples using Google Cloud Platform services - Functions
 
@@ -72,5 +79,6 @@ This package is in a very early and experimental stage, use it under your own re
 
 # Troubleshooting
 
-* NoCredentialsError raised while resolving interpolation: Unable to locate credentials
+
+* **[AWS]** NoCredentialsError raised while resolving interpolation: Unable to locate credentials
   You might not have configured a default profile or provided with a session to a AWS Resolver.

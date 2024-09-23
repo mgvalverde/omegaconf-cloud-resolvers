@@ -8,7 +8,9 @@ from .resolvers.base import JsonType
 logger = logging.getLogger("omegaconf.plugin.cloud")
 
 
-def register_custom_resolvers(*args: Callable[..., JsonType], **kwargs: Dict[str, Callable[..., JsonType]]):
+def register_custom_resolvers(
+    *args: Callable[..., JsonType], **kwargs: Dict[str, Callable[..., JsonType]]
+):
     """
     Registers multiple custom resolvers at once for OmegaConf.
 

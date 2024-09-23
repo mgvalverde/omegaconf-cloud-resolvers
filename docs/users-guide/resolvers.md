@@ -1,22 +1,21 @@
 ---
 tags:
   - AWS
+  - AZ
   - GCP
 ---
 
-# Cloud Resolvers 
+# Cloud Resolvers
 
 Each resolver uses the same interface but has unique features based on the service it connects to.
 The next sections will cover important examples for each resolver.
 
-## AWS 
+## AWS
 
 ### Prerequisites
 
-The AWS resolvers in this package are built on top of the `boto3` library, which is the 
+The AWS resolvers in this package are built on top of the `boto3` library, which is the
 Amazon Web Services (AWS) SDK for Python.
-
-#### Configuring AWS CLI (Optional)
 
 If you are running this example from your local machine, ensure that you have configured your AWS credentials.
 
@@ -36,13 +35,13 @@ This configuration is stored in the `~/.aws/credentials` and `~/.aws/config` fil
 #### Create a secret
 
 !!! tip "Policy Check"
-    
+
     If you have problems creating or accessing your secrets,  verify that you have the necessary permissions
     to access the AWS Secrets Manager. Review the [policies](https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html)
     needed and ensure that your IAM user or role has the appropriate permissions.
 
 
-You can create a secret using the AWS CLI or the AWS Management Console. 
+You can create a secret using the AWS CLI or the AWS Management Console.
 Below is an example of how to create a secret using the AWS CLI:
 
 ```bash
@@ -54,12 +53,12 @@ aws secretsmanager create-secret --name db_secret_1 --secret-string '{"user":"us
 In this example, the `AWSSecretsManagerResolver` is used to fetch the secret named `db_secret_1` from AWS Secrets Manager.
 The `infer_json` parameter is set to `True`, which means the resolver will attempt to parse the secret string into a
 dictionary. This is of interest when the secret stores key:values pairs.
-If `infer_json` is set to `False`, the secret will be returned as a plain string, which is useful if you store a secret 
+If `infer_json` is set to `False`, the secret will be returned as a plain string, which is useful if you store a secret
 string, like a JWT.
 
 The following example shows how to use the AWS Secrets Manager resolver with default AWS credentials configuration.
 
-```python 
+```python
 from omegaconf import OmegaConf
 from omegaconf_cloud_resolvers import register_custom_resolvers
 from omegaconf_cloud_resolvers.resolvers.aws import AWSSecretsManagerResolver
@@ -83,13 +82,13 @@ To check the class in depth, visit the reference page for [`AWSSecretsManagerRes
 #### Create parameters
 
 !!! tip "Policy Check"
-    
+
     If you have problems creating or accessing your parameters, verify that you have the necessary permissions
     to access the SSM Parameter Store. Review the [policies](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-paramstore-access.html)
     needed and ensure that your IAM user or role has the appropriate permissions.
 
 
-You can create secrets using either the AWS Command Line Interface (CLI) or the AWS Management Console. 
+You can create secrets using either the AWS Command Line Interface (CLI) or the AWS Management Console.
 Below are the instructions for using the CLI:
 
 ```bash
@@ -101,28 +100,28 @@ aws ssm put-parameter --name "/project1/env1/famA/b" --value "ValueB" --type "Se
 
 #### Using the SSM Parameter Store Resolver
 
-The `AWSParameterStoreResolver` is able to retrieve each one of the parameters types available: 
+The `AWSParameterStoreResolver` is able to retrieve each one of the parameters types available:
 
  * `String`: plain string, suitable for common values.
  * `StringList`: comma separated list of plain strings, suitable for a collection of non-encrypted values.
  * `SecureString`: encrypted string, suitable to store sensitive information.
   Use the argument `decrypt=True` (defaults to `True`) if you need the decrypted value stored, otherwise you will get
-  the encrypted value.  
+  the encrypted value.
 
-Another feature of the class is its ability to retrieve nested parameters. The options are: 
+Another feature of the class is its ability to retrieve nested parameters. The options are:
  * `/my/param`: retrieves one single value.
  * `/my/param/*`: retrieves `/my/param` and the first level hanging from `/my/param/`, i.e. `/my/param/a` and
    `/my/param/b`, as a dictionary: `{'param': ..., 'param/a': ...,'param/b': ...}`.
  * `/my/param/family`: retrieves `/my/param/family` and the all the parameters hanging from `/my/param/family`, i.e. `/my/param/family/a`,
-   `/my/param/family/a/beta` and `/my/param/family/b`, as a dictionary: 
+   `/my/param/family/a/beta` and `/my/param/family/b`, as a dictionary:
    `{'family': ..., 'family/a': ..., family/a/beta: ..., 'family/b': ...}`.
 
-Lastly, `infer_types=True` will attempt to cast each value to the right type (). That could be of special interest when 
+Lastly, `infer_types=True` will attempt to cast each value to the right type (). That could be of special interest when
 the parameter type is `StringList`.
 
 The following case assumes that you have default configuration for your AWS credentials.
 
-```python 
+```python
 import boto3
 from omegaconf import OmegaConf
 from omegaconf_cloud_resolvers import register_custom_resolvers
@@ -148,26 +147,118 @@ conf = OmegaConf.create({
     "list_param_str": "${get_aws_param_list_str:/project1/env1/list}",
 })
 
-print(conf["sec_param"]) 
-print(conf["collection_param"]) 
+print(conf["sec_param"])
+print(conf["collection_param"])
 print(conf["list_param"])
 print(conf["list_param_str"])
 ```
 
 To check the class in depth, visit the reference page for [`AWSParameterStoreResolver`](../api/resolvers/aws/parameterstore.md).
 
+## Azure
+
+### Prerequisites
+
+If you need to test locally your configuration you will need to install
+the [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli).
+
+Make sure as well that you are [authenticated](https://learn.microsoft.com/en-us/cli/azure/authenticate-azure-cli-interactively):
+
+```bash
+az login
+```
+
+### Key Vault
+
+#### Create a Secret
+
+You need to point out to a secret. In case that you need to create a new one, you can create it
+using the console or through the web.
+
+!!! note "Key Vaults"
+    Key Vault's secrets belong inside objects called Key Vaults.
+    As anything in Azure, they must be linked to a resource group, so make
+    sure that you have a resource group available. In case you don't, you can
+    create a new one:
+    ```bash
+    az group create --name <ResourceGroupName> --location germanywestcentral
+    ```
+    To create a Key Vault run:
+    ```
+    az keyvault create --name <ConfigVaultName> --resource-group <ResourceGroupName> --location germanywestcentral
+    ```
+
+Let's create 2 versions for this secret, make sure that you replace
+the fields between `<>` by the proper strings.
+```bash
+az keyvault secret set --vault-name <ConfigVaulName> --name MySecret --value "This is a s3cr3t"
+az keyvault secret set --vault-name <ConfigVaulName> --name MySecret --value "This is a s3cr3t v2"
+```
+
+!!! tip "Permission error creating a secret"
+
+    If you get an error trying to create the secrets like: ``
+    it is likely that you don't have the right set of permissions to create secrets.
+    For this example's sake, you can use the `Key Vault Administrator` role.
+    Add the previusly mentioned role in your ConfigResourceGroup/Access control (IAM)/Role Assigments
+    as described [here]().
+    Consider using a more restricted role in production.
+
+!!! note "Key Vault naming"
+
+    Key Vault naming must be globally unique, so you can add some random string
+    at the end of the name if you get any related error.
+
+
+#### Using the Azure Key Vault Resolver
+
+The Azure Key Vault resolver support the one name parameter.
+The supported patterns are:
+ * `keyvault/<keyvault-name>/secret/<secret-name>/version/<version-id>`: retrieves a given secret version.
+ * `keyvault/<keyvault-name>/secret/<secret-name>`: retrieves the latest version of a secret.
+
+Assuming that in my case I have access to
+ * Key Vault: `ConfigVaultu31d` (in your case it will be different)
+ * Secret: `MySecret`
+
+```python
+from omegaconf import OmegaConf
+from omegaconf_cloud_resolvers import register_custom_resolvers
+from omegaconf_cloud_resolvers.resolvers.az import AzureKeyVaultResolver
+from azure.identity import DefaultAzureCredential
+
+credentials = DefaultAzureCredential()
+
+resolvers = {
+    "get_az_secret": AzureKeyVaultResolver(credentials=credentials),
+}
+
+register_custom_resolvers(**resolvers)
+
+conf = OmegaConf.create({
+    "secret_01":"${get_az_secret:keyvault/ConfigVaultu31d/secret/MySecret}",
+    "secret_02":"${get_az_secret:keyvault/ConfigVaultu31d/secret/MySecret/version/339c8635b01644b2b6197588ef94a228}",
+    "secret_03":"${get_az_secret:keyvault/ConfigVaultu31d/secret/MySecret/version/ab9a2a6ae5b5420abd49a71628f368d8}",
+})
+
+print(conf["secret_01"])
+print(conf["secret_02"])
+print(conf["secret_03"])
+```
+
+
 ## GCP
 
-### Prerequisites 
+### Prerequisites
 
-If you are working on your local environment, ensure that you have the necessary permissions and tools installed to interact with 
-Google Cloud Platform services, in this case, the Secret Manager. 
+If you are working on your local environment, ensure that you have the necessary permissions and tools installed to interact with
+Google Cloud Platform services, in this case, the Secret Manager.
 
 You will need the [`gcloud` CLI](https://cloud.google.com/sdk/docs/install) installed and authenticated to your GCP account.
-Set-up the environment [credentials](https://cloud.google.com/secret-manager/docs/authentication#client-libs) and 
+Set-up the environment [credentials](https://cloud.google.com/secret-manager/docs/authentication#client-libs) and
 make sure that you have the right access [permissions](https://cloud.google.com/secret-manager/docs/access-control).
 
-If you want to set up Application Default Credentials (ADC), so your application automatically finds your environment 
+If you want to set up Application Default Credentials (ADC), so your application automatically finds your environment
 credentials, review this [link](https://cloud.google.com/docs/authentication/provide-credentials-adc).
 
 ### Secret Manager
@@ -188,15 +279,15 @@ echo -n "This is a s3cr3t v2" | gcloud secrets versions add gcp-secret-001 --dat
 
 #### Using the GCP Secret Manager Resolver
 
-The typical way to access a  GCP secret is providing a combination of the project_id, the secret id and, optionally, the 
-secret's version. That is supported by the resolver, allowing you to retrieve the secret providing a name under the 
+The typical way to access a  GCP secret is providing a combination of the project_id, the secret id and, optionally, the
+secret's version. That is supported by the resolver, allowing you to retrieve the secret providing a name under the
 following format:
 
  * `project/<project_id>/secrets/<secret_id>/versions/<version>`
- * `project/<project_id>/secrets/<secret_id>`: retrieve the latest version 
+ * `project/<project_id>/secrets/<secret_id>`: retrieve the latest version
  * `secrets/<secret_id>/versions/<version>`: infer the project_id based on the default configuration
- * `secrets/<secret_id>`: infer the project_id based on the default configuration and retrieve the latest version  
- * `<secret_id>`: infer the project_id based on the default configuration and retrieve the latest version 
+ * `secrets/<secret_id>`: infer the project_id based on the default configuration and retrieve the latest version
+ * `<secret_id>`: infer the project_id based on the default configuration and retrieve the latest version
 
 Assuming that you have the ADC, create a file `main.py` like the following:
 
@@ -217,7 +308,7 @@ conf = OmegaConf.create({
     "secret_03": "${get_gcp_secret:gcp-secret-001}",
 })
 
-print(conf["secret_01"]) 
-print(conf["secret_02"]) 
-print(conf["secret_03"]) 
+print(conf["secret_01"])
+print(conf["secret_02"])
+print(conf["secret_03"])
 ```

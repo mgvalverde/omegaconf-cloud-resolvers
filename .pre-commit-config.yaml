@@ -27,7 +27,7 @@ repos:
     rev: 1.7.9
     hooks:
     - id: bandit
-      args: ["-r", "-x", "./.venv/*,./tests/*", "targets", "."]
+      args: [-r, --skip, "B101", -x, "./.venv/*,./tests/*,./example/*", "."]  # skipping B101 temporally due to bug with -x
 
   - repo: local
     hooks:
