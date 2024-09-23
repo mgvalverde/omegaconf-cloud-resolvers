@@ -22,7 +22,7 @@ If you are running this example from your local machine, ensure that you have co
 You might need to install the [aws-cli](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
 if you don't have it yet.
 
-To verify that you have the necessary permissions to access the AWS SSM Parameter Store 
+To verify that you have the necessary permissions to access the AWS SSM Parameter Store
 and to create and retrieve parameters, review
 the [policies](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-paramstore-access.html)
 attached to your user's role. Ensure that your IAM user or role has the appropriate permissions.
@@ -61,7 +61,7 @@ import boto3
 from omegaconf_cloud_resolvers import register_custom_resolvers
 from omegaconf_cloud_resolvers.resolvers.aws import AWSParameterStoreResolver
 
-session = boto3.Session(...)  # Replace ... with you actual auth info, e.g: profile_name 
+session = boto3.Session(...)  # Replace ... with you actual auth info, e.g: profile_name
 
 resolvers = {
     "get_aws_secret": AWSParameterStoreResolver(session=session),
@@ -85,7 +85,7 @@ if __name__ == "__main__":
 Let's understand each line step by step.
 
 1. **Define the resolver to retrieve the secret.**
-   Each key in the `resolvers` dictionary will be the name of the function that you can use in your configuration files. 
+   Each key in the `resolvers` dictionary will be the name of the function that you can use in your configuration files.
    The dictionary's value must be a callable, which in this case, it is, since all the cloud resolvers are
    provided with a `__call__` method.
 

@@ -59,7 +59,14 @@ class AWSParameterStoreResolver(PluginResolver, AWSParameterStoreMixin):
         ```
     """
 
-    def __init__(self, session: Session = None, decrypt: bool = True, infer_types: bool = False, *args, **kwargs):
+    def __init__(
+        self,
+        session: Session = None,
+        decrypt: bool = True,
+        infer_types: bool = False,
+        *args,
+        **kwargs,
+    ):
         """
         Initializes the AWSParameterStoreResolver.
 
@@ -88,7 +95,9 @@ class AWSParameterStoreResolver(PluginResolver, AWSParameterStoreMixin):
                                          depending on the type inference.
         """
         if name.endswith("/*") or name.endswith("/**"):
-            if name.endswith("/**"):  # If '**' access recursively, if only '*' just to the first level.
+            if name.endswith(
+                "/**"
+            ):  # If '**' access recursively, if only '*' just to the first level.
                 recursive = True
                 name = name.removesuffix("/**")
             else:
@@ -108,40 +117,42 @@ class AWSParameterStoreResolver(PluginResolver, AWSParameterStoreMixin):
         rparameters = []
         # Use the get_parameters_by_path method to retrieve parameters
         response = self.client.get_parameters_by_path(
-            Path=name,
-            Recursive=recursive,
-            WithDecryption=self._decrypt
+            Path=name, Recursive=recursive, WithDecryption=self._decrypt
         )
-        rparameters.extend(response['Parameters'])
+        rparameters.extend(response["Parameters"])
 
         # Check if there are more parameters to retrieve
-        while 'NextToken' in response:
+        while "NextToken" in response:
             response = self._decrypt.get_parameters_by_path(
                 Path=name,
                 Recursive=recursive,
                 WithDecryption=self._decrypt,
-                NextToken=response['NextToken']
+                NextToken=response["NextToken"],
             )
-            rparameters.extend(response['Parameters'])
+            rparameters.extend(response["Parameters"])
 
         parameters = {}
         for parameter in rparameters:
-            pname, ptype, pvalue = parameter["Name"], parameter["Type"], parameter["Value"]
+            pname, ptype, pvalue = (
+                parameter["Name"],
+                parameter["Type"],
+                parameter["Value"],
+            )
             pname = pname.replace(name, "").lstrip("/")
             parameters[pname] = self._parse_value(
                 value=pvalue,
                 type_=ptype,
                 decrypt=self._decrypt,
-                infer_types=self._infer_types
+                infer_types=self._infer_types,
             )
         return parameters
 
     @staticmethod
     def _parse_value(
-            value: str,
-            type_: AWS_PARAMETER_TYPE,
-            decrypt: bool = False,
-            infer_types: bool = False
+        value: str,
+        type_: AWS_PARAMETER_TYPE,
+        decrypt: bool = False,
+        infer_types: bool = False,
     ) -> JsonType:
         """
         Parses the parameter value based on its type and the provided flags.
@@ -170,7 +181,9 @@ class AWSParameterStoreResolver(PluginResolver, AWSParameterStoreMixin):
 
         if type_ == "SecureString" and not decrypt:
             if infer_types:
-                logger.warning("infer_types is ignored when parameter type is 'SecureString' and decrypt is False")
+                logger.warning(
+                    "infer_types is ignored when parameter type is 'SecureString' and decrypt is False"
+                )
             return value  # returns the encrypted value
 
         if infer_types:

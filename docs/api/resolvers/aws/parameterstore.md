@@ -3,7 +3,7 @@ tags:
   - AWS
 ---
 
-# AWS Parameter Store 
+# AWS Parameter Store
 
 ::: omegaconf_cloud_resolvers.resolvers.aws.AWSParameterStoreResolver
     options:
