@@ -6,7 +6,9 @@ try:
     import google.auth
     from google.auth.credentials import Credentials
 except ImportError:
-    raise ImportError("To use the GCP resolvers, you need to: `pip install omegaconf_cloud_resolvers[gcp]`")
+    raise ImportError(
+        "To use the GCP resolvers, you need to: `pip install omegaconf_cloud_resolvers[gcp]`"
+    )
 
 
 class GCPMixin(ClientMixin, ABC):
@@ -14,7 +16,9 @@ class GCPMixin(ClientMixin, ABC):
     Mixin to handle the auth configuration for GCP
     """
 
-    def __init__(self, credentials: Credentials = None, project_id: str = None, *args, **kwargs):
+    def __init__(
+        self, credentials: Credentials = None, project_id: str = None, *args, **kwargs
+    ):
         if credentials is None or project_id is None:
             credentials_, project_id_ = google.auth.default(*args, **kwargs)
         else:

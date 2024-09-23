@@ -1,0 +1,3 @@
+secret_01: "${get_az_secret:keyvault/<ConfigVaulName>/secret/MySecret}"
+secret_02: "${get_az_secret:keyvault/<ConfigVaulName>/secret/MySecret/version/<version>}"
+secret_03: "${get_az_secret:keyvault/<ConfigVaulName>/secret/MySecret/version/<version>}"

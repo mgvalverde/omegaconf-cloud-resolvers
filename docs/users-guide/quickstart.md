@@ -2,13 +2,13 @@
 
 ## Introduction to OmegaConf
 
-For those unfamiliar with OmegaConf, it is highly recommended to first review its official 
-[documentation](https://omegaconf.readthedocs.io/). 
+For those unfamiliar with OmegaConf, it is highly recommended to first review its official
+[documentation](https://omegaconf.readthedocs.io/).
 In brief, OmegaConf is a YAML-based configuration system that supports merging configurations from multiple sources.
 
 
-One of OmegaConf's most compelling features is its ability to interpolate values within configuration files. 
-This is achieved through the use of [Resolvers](https://omegaconf.readthedocs.io/en/2.3_branch/custom_resolvers.html#). 
+One of OmegaConf's most compelling features is its ability to interpolate values within configuration files.
+This is achieved through the use of [Resolvers](https://omegaconf.readthedocs.io/en/2.3_branch/custom_resolvers.html#).
 The syntax for interpolation is: `"${<resolver-name>:<args>}"`.
 
 Resolvers can be any type of function. Below is an example demonstrating how to register and use a custom resolver:
@@ -25,12 +25,12 @@ conf = OmegaConf.create({
 print(conf["who"])  # 'WORLD'
 ```
 
-Alternatively use `register_custom_resolvers`, which allows you to register 
+Alternatively use `register_custom_resolvers`, which allows you to register
 many resolvers at once.
-They key of the dictionary is the name of the resolver which you need to use 
+They key of the dictionary is the name of the resolver which you need to use
 to interpolate.
 
-```python 
+```python
 from omegaconf import OmegaConf
 from omegaconf_cloud_resolvers import register_custom_resolvers
 

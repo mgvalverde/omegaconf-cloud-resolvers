@@ -57,7 +57,12 @@ class GCPSecretManagerResolver(PluginResolver, GCPSecretManagerMixin):
     """
 
     def __init__(
-            self, credentials=None, project_id: str = None, encoding: str = "UTF-8", *args, **kwargs
+        self,
+        credentials=None,
+        project_id: str = None,
+        encoding: str = "UTF-8",
+        *args,
+        **kwargs,
     ):
         """
         Initializes the GCPSecretManagerResolver.

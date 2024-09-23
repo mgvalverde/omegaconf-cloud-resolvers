@@ -51,6 +51,8 @@ nav:
           - AWS:
               - Parameter Store: api/resolvers/aws/parameterstore.md
               - Secrets Manager: api/resolvers/aws/secretsmanager.md
+          - Azure:
+              - KeyVault: api/resolvers/az/keyvault.md
           - GCP:
               - Secret Manager: api/resolvers/gcp/secretmanager.md
   - Tags: tags.md

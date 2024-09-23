@@ -5,7 +5,9 @@ from ..base import ClientMixin
 try:
     import boto3
 except ImportError:
-    raise ImportError("To use the AWS resolvers, you need to: `pip install omegaconf_cloud_resolvers[aws]`")
+    raise ImportError(
+        "To use the AWS resolvers, you need to: `pip install omegaconf_cloud_resolvers[aws]`"
+    )
 
 
 class AWSMixin(ClientMixin, ABC):

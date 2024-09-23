@@ -16,7 +16,15 @@ pip install omegaconf-cloud-resolvers[aws]
 pip install omegaconf-cloud-resolvers[gcp]
 ```
 
-If you make  use of `hydra` to load your configuration as well, it needs to be installed separately:
+* For Azure
+
+```bash
+pip install omegaconf-cloud-resolvers[az]
+```
+
+# Hydra
+
+If you make use of `hydra` to load your configuration as well, it needs to be installed separately:
 
 ```bash
 pip install hydra-core
